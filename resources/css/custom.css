@@ -1,0 +1,76 @@
+.navbar {
+    background-color: transparent;
+}
+.btn-login {
+    margin-right: 10px;
+}
+
+.btn-custom {
+    background-color: #171d28;
+    color: white;
+    border: none;
+    border-radius: 20px; /* bord très arrondi */
+    padding: 10px 30px;
+    font-size: 14px;
+}
+
+.btn-custom:hover {
+    background-color: #0f131c;
+    color: white;
+}
+
+.btn1 {
+    border-color: #171d28;
+    color: #171d28;
+    border-radius: 20px; /* bord très arrondi */
+    padding: 10px 20px;
+    font-size: 14px;
+}
+
+.btn1:hover {
+    background-color: #fe8b84;
+    color: white;
+    border: #fe8b84;
+}
+
+.color {
+    background-color: #edebe7;
+}
+
+.big-title {
+    font-size: 80px;
+    font-weight: bold;
+}
+
+.small-title {
+    font-size: 30px;
+    font-weight: lighter;
+}
+
+/* login */
+.left-border {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 15px; /* Épaisseur de la barre */
+    height: 100vh; /* Prend toute la hauteur de l’écran */
+    background-color: #171d28; /* Vert Bootstrap */
+    z-index: 9999; /* S’assure qu’elle reste au-dessus du contenu */
+}
+
+.login {
+    background-color: white;
+}
+
+.bloclogin {
+    background-color: white;
+}
+
+.rights {
+    font-size: 12px;
+}
+
+/* page home */
+.session2 {
+    background-color: #171d28;
+}
