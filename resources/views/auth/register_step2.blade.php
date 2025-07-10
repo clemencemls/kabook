@@ -11,7 +11,7 @@
               <h6 class="text-muted"> Etape 2 - Informations générales</h6>
             </div>
 
-            <form id="myForm" action="{{ route('DoregisterStep1') }}" method="POST">
+            <form id="myForm" action="{{ route('DoregisterStep2') }}" method="POST">
             @csrf
               <div class="mb-3 text-start">
                 <label for="company_name" class="form-label">Quel est le nom public de votre structure?</label>
