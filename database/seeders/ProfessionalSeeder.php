@@ -19,15 +19,15 @@ class ProfessionalSeeder extends Seeder
     {
 
         $animalCategoryMap = [
-            'Chat' => 'c49fdeb4-f2a0-4190-a013-81cbeff1a5e0',
-            'Chien' => '5e517b50-0647-453b-b4a4-d65aaead9225',
-            'NAC' => '5e61a645-56c3-41a2-a53f-9181496911d6',
+            'Chat' => '1574e1d6-d7ba-420d-a7ab-f5e8945524ab',
+            'Chien' => 'b16ca8c3-ddaa-478a-a02b-e8cdbb3fa765',
+            'NAC' => '056b8d4f-2c0e-4b0a-be9f-b15e2ce837f5',
         ];
 
         $jobCategoryMap = [
-            'Comportementaliste' => 'da63891a-45e8-4a3c-a60c-0b4fe933b91c',
-            'Ostéopathe' => 'ea691045-cf91-4633-a2b8-a072c46b37a5',
-            'Toiletteur' => 'e395bac0-5df7-4d66-b58a-46c1fef073b3',
+            'Comportementaliste' => '93c14dec-cd02-4dd7-9b83-b130d49251ea',
+            'Ostéopathe' => '1b4fb4a2-1cfc-4edf-ac79-5f4352807ffd',
+            'Toiletteur' => 'eead3f79-a064-4056-8b75-39d211581d79',
         ];
 
         // Création des utilisateurs (users)

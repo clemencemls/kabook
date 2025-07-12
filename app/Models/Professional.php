@@ -35,15 +35,12 @@ class Professional extends Model
         'is_validated',
         'user_id',
     ];
-
     // protected $hidden = ['password']; // jamais inclure ce champ dans les réponses JSON
 
     // protected $casts = [
     //     'is_mobile' => 'boolean',
     //     'is_validated' => 'boolean',
     // ]; // converti en true ou false au lieu de O et 1
-
-
     public function animalCategories()
     {
 
@@ -60,4 +57,12 @@ class Professional extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function departments()
+    {
+
+        return $this->belongsToMany(Department::class);
+    }
+
+
 }

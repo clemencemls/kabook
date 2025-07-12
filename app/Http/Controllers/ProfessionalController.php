@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\AnimalCategory;
+use App\Models\Department;
 use App\Models\JobCategory;
 use App\Models\Professional;
 use App\Models\User;
@@ -13,12 +14,6 @@ use Illuminate\Support\Facades\Auth;
 
 class ProfessionalController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-
-
-
     public function registerStep1()
     {
         $jobcategories = JobCategory::all();
@@ -30,7 +25,6 @@ class ProfessionalController extends Controller
 
     public function DoregisterStep1(Request $request)
     {
-
         // il faut que je recupère l'id de l'user stocké dans le session à l'etape précedente
         $user_id = session('user_id');
 
@@ -73,7 +67,6 @@ class ProfessionalController extends Controller
     {
         $user_id = session('user_id');
         // je recupère le professionel lié à cet user_id
-        // $professional = Professional::where('user_id', $user_id)->first();
 
         $user = User::findOrFail($user_id);
         $professional = $user->professional;
@@ -100,8 +93,9 @@ class ProfessionalController extends Controller
 
     public function registerStep3()
     {
+        $departments = Department::all();
 
-        return view('auth.register_step3');
+        return view('auth.register_step3', compact('departments'));
 
     }
     public function DoregisterStep3(Request $request)
@@ -118,6 +112,7 @@ class ProfessionalController extends Controller
             'postal_code' => 'required',
             'address' => 'nullable',
             'is_mobile' => 'required',
+            'departments' => 'required',
         ]);
 
         $professional->update([
@@ -125,19 +120,45 @@ class ProfessionalController extends Controller
             'postal_code' => $request->input('postal_code'),
             'address' => $request->input('address'),
             'is_mobile' => $request->input('is_mobile'),
+
         ]);
 
+        // je relis le ou les  départements cochés
+        $professional->departments()->attach($request->input('departments'));
+
         Auth::loginUsingId($user_id);
-        // session()->forget('user_id');
+        session()->forget('user_id');
         return redirect()->route('monprofil');
     }
 
     public function showMonprofil()
     {
+        $professional = Auth::user()->professional;
 
-        return view('professional.monprofil');
+
+        return view('professional.monprofil', compact('professional'));
     }
 
+    public function showParametre()
+    {
+
+        return view('professional.parametres');
+    }
+
+
+    public function editInfos()
+    {
+
+        // $jobcategories = Auth::user()->professional->jobCategories;
+        // $animalcategories = Auth::user()->professional->animalCategories;
+
+        $professional = Auth::user()->professional;
+
+        $jobcategories = JobCategory::all();
+        $animalcategories = AnimalCategory::all();
+
+        return view('professional.editinfos', compact('jobcategories', 'animalcategories', 'professional'));
+    }
 
     public function index()
     {

@@ -9,6 +9,7 @@
           <h1 class="fs-3">Création de votre profil professionnel en 4 étapes</h1>
           <br>
           <h6 class="text-muted">Etape 1 - Informations générales</h6>
+          <h6 class="text-muted">Vous pourrez modifier toutes ces informations ultérieurement.</h6>
         </div>
 
         <form id="myForm" action="{{ route('DoregisterStep1') }}" method="POST">

@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
             AnimalCategorySeeder::class,
             JobCategorySeeder::class,
             ProfessionalSeeder::class,
+            DepartmentSeeder::class,
         ]);
 
 
