@@ -40,7 +40,7 @@
 
                       <div class="mb-3 text-start">
                     <label for="phone" class="form-label">Votre numéro de téléphone</label>
-                    <input type="text" class="form-control" id="phone" name="phone" value="{{ $professional->phone }}" required/>
+                    <input type="text" class="form-control" id="phone" name="phone" placeholder="Ex : 0612345678" required pattern="^0[1-9]\d{8}$" value="{{ $professional->phone }}" required/>
                   </div>
 
                   <div class="mb-3 text-start">

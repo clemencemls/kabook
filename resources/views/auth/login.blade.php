@@ -42,25 +42,6 @@
     <section class="text-center">
       <h6 class="rights"> ©2025 Intuit Inc. Tous droits réservés. Kabook® est une marque déposée de Kabook Group, Préférences en matière de cookies, Confidentialité et Conditions générales</h6>
     </section>
-    <style>
-
-      .text-muted{
-        font-size:0.9rem;
-      }
-      .error {
-        color: #fe8b84;
-        font-size: 0.875rem; /* un peu plus petit que le texte normal */
-        margin-top: 0.25rem; /* petit espace au-dessus */
-        padding-left: 0.5rem; /* léger décalage pour l'alignement */
-        font-style: italic;
-      }
-
-      .cond {
-        font-size:0.7rem;
-        font-style: italic;
-      }
-        </style>
-
 
 
 @endsection

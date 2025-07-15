@@ -68,6 +68,7 @@ class AuthController extends Controller
 
         // sauvegarde de l'id du user en session
         session(['user_id' => $user->id]);
+        // Auth::login($user);
 
         // redirection vers l'etape 1
         return redirect()->route('register.step1');

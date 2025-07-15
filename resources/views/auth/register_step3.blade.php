@@ -15,9 +15,9 @@
           @csrf
 
           <div class="mb-3 text-start">
-            <label class="form-label d-block">Est-ce que vous vous déplacez chez vos clients ?</label>
+            <label class="form-label d-block">Est-ce que vous vous déplacez chez vos clients ? *</label>
           <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" name="is_mobile" id="mobile_yes" value="1">
+              <input class="form-check-input" type="radio" name="is_mobile" id="mobile_yes" value="1" required>
               <label class="form-check-label" for="mobile_yes">Oui</label>
             </div>
 
@@ -28,7 +28,7 @@
 
 
           <div class="mb-3 text-start">
-            <label for="job_categories" class="form-label">Veuillez saisir votre département. Si vous êtes mobiles, selectionner tous ceux dans lequel vous vous déplacez.</label>
+            <label for="job_categories" class="form-label">Veuillez saisir votre département. Si vous êtes mobiles, selectionner tous ceux dans lequel vous vous déplacez. *</label>
             <select name="departments[]" id="departments" multiple class="form-select" required>
               @foreach ($departments as $dep)
                 <option value="{{ $dep->id }}">{{ $dep->name }}</option>
@@ -38,14 +38,14 @@
 
 
           <div class="mb-3 text-start">
-            <label for="city" class="form-label">Dans quelle ville habitez-vous ?</label>
-            <input type="text" class="form-control" id="city" name="city" />
+            <label for="city" class="form-label">Dans quelle ville habitez-vous ? *</label>
+            <input type="text" class="form-control" id="city" name="city" required/>
             <div id="error_city" class="error"></div>
           </div>
 
           <div class="mb-3 text-start">
-            <label for="postal_code" class="form-label">Veuillez saisir le code postal</label>
-            <input type="text" class="form-control" id="postal_code" name="postal_code" />
+            <label for="postal_code" class="form-label">Veuillez saisir le code postal. *</label>
+            <input type="text" class="form-control" id="postal_code" name="postal_code" required />
             <div id="error_postal_code" class="error"></div>
           </div>
 
@@ -63,7 +63,7 @@
               <option>Yvelines</option>
             </select>
             -->
-          </div>
+            <p>* Champs obligatoires</p>
 
           <div class="text-center mt-4">
             <button type="submit" class="btn btn-primary px-4 btn-custom">Valider l'inscription</button>
@@ -71,6 +71,8 @@
         </form>
       </div>
     </section>
+    <br>
+    <br>
 
     <section class="text-center">
       <h6 class="rights">
@@ -92,26 +94,4 @@
 
                         });
                     </script>
-
-                <style>
-              .error {
-                color: #fe8b84;
-                font-size: 0.875rem; /* un peu plus petit que le texte normal */
-                margin-top: 0.25rem; /* petit espace au-dessus */
-                padding-left: 0.5rem; /* léger décalage pour l'alignement */
-                font-style: italic;
-              }
-
-              .cond {
-                font-size:0.7rem;
-                font-style: italic;
-              }
-
-              .form-check-label{
-                font-size:0.8rem;
-              }
-                </style>
-
-
-
 @endsection

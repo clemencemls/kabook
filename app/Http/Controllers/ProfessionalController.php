@@ -30,16 +30,18 @@ class ProfessionalController extends Controller
         // il faut que je recupère l'id de l'user stocké dans le session à l'etape précedente
         $user_id = session('user_id');
 
-
         $request->validate([
-            'first_name' => 'required',
-            'last_name' => 'required',
-            'phone' => 'required|digits:10',
+            'first_name' => 'required|string|max:50',
+            'last_name' => 'required|string|max:50',
+            'phone' => ['required', 'regex:/^0[1-9]\d{8}$/'],
             'job_categories' => 'required|array',
+            'job_categories.*' => 'uuid|exists:job_categories,id',
             'animal_categories' => 'required|array',
+            'animal_categories.*' => 'uuid|exists:animal_categories,id',
         ]);
 
         $professional = Professional::create([
+            // 'user_id' => Auth::user()->id,
             'user_id' => $user_id,
             'first_name' => $request->input('first_name'),
             'last_name' => $request->input('last_name'),
@@ -73,12 +75,15 @@ class ProfessionalController extends Controller
         $user = User::findOrFail($user_id);
         $professional = $user->professional;
 
+        // $user = Auth::user(); // je recupère l'utilisateur connecté
+        // $professional = $user->professional; // et le professionnel lié
+
         $request->validate([
-            'company_name' => 'required',
+            'company_name' => 'required|string|max:50',
             'siret' => 'nullable|digits:14',
-            'description' => 'required',
-            'education_background' => 'nullable',
-            'experience_background' => 'nullable',
+            'description' => 'required|string|min:1|max:1000',
+            'education_background' => 'nullable|string|max:100',
+            'experience_background' => 'nullable|string|max:100',
         ]);
 
         $professional->update([
@@ -104,24 +109,27 @@ class ProfessionalController extends Controller
     {
         $user_id = session('user_id');
         // je recupère le professionel lié à cet user_id
-        // $professional = Professional::where('user_id', $user_id)->first();
-
         $user = User::findOrFail($user_id);
         $professional = $user->professional;
 
+
+        // $user = Auth::user(); // je recupère l'utilisateur connecté
+        // $professional = $user->professional; // et le professionnel lié
+
         $request->validate([
-            'city' => 'required',
-            'postal_code' => 'required',
-            'address' => 'nullable',
-            'is_mobile' => 'required',
+            'city' => 'required|string|max:50',
+            'postal_code' => 'required|digits:5',
+            'address' => 'nullable|string|max:255',
+            'is_mobile' => 'required|boolean',
             'departments' => 'required|array',
+            'departments.*' => 'integer|exists:departments,id',
         ]);
 
         $professional->update([
             'city' => $request->input('city'),
             'postal_code' => $request->input('postal_code'),
             'address' => $request->input('address'),
-            'is_mobile' => $request->input('is_mobile'),
+            'is_mobile' => $request->boolean('is_mobile'),
 
         ]);
 
@@ -130,6 +138,7 @@ class ProfessionalController extends Controller
 
         Auth::loginUsingId($user_id);
         session()->forget('user_id');
+
         return redirect()->route('monprofil');
     }
 
@@ -243,8 +252,6 @@ class ProfessionalController extends Controller
     }
 
 
-
-
     public function editText()
     {
         $professional = Auth::user()->professional;
@@ -268,8 +275,6 @@ class ProfessionalController extends Controller
         return redirect()->route('monprofil')->with('success', 'Informations modifiés avec succes!');
 
     }
-
-
 
     /**
      * Show the form for creating a new resource.

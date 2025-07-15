@@ -23,7 +23,7 @@
     <nav class="navbar navbar-expand-lg fixed-top">
       <div class="container-fluid px-4">
         <a class="navbar-brand" href="{{ route('home') }}">
-          <img src="" alt="Kabook" height="" />
+          <img src="{{ asset('images/paw.png') }}"alt="Kabook" height="20" />
         </a>
 
         @auth
