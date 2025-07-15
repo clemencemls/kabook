@@ -11,6 +11,9 @@
                             </div>
                         @endif
                         <br>
+                        @if(session('success'))
+                            <h1>{{session('success')}}</h1>
+                        @endif
 
 
                         <div class="container my-4">
@@ -50,6 +53,7 @@
                         @if($professional->is_mobile == true)
                             <span class="badge text-bg-dark me-1">Se déplace</span>
                         @else
+                            <span class="badge text-bg-dark me-1">Ne se déplace pas</span>
                         @endif
                         <a href="{{ route('edit-infos', $professional->id) }}">Modifier les infos</a>
                     </p>
@@ -58,19 +62,41 @@
         </div>
     </div>
 
+    <h3> Informations générales</h3>
+    <p><strong>Adresse :</strong> {{ $professional->adress }} {{ $professional->postal_code }} {{ $professional->city }}</p>
     <p><strong>Téléphone :</strong> {{ $professional->phone }}</p>
+    <p><strong>Siret :</strong> {{ $professional->siret }}</p>
+    <br>
+    @if ($professional->is_mobile == true)
+        <span>Je me déplace dans les départements suivants :</span>
+        @foreach($professional->departments as $department)
+            <span>{{ $department->code }}</span>
+        @endforeach
+    @else
+        <span>Je me situe dans le departement :</span>
+            @foreach($professional->departments as $department)
+                <span>{{ $department->code }}</span>
+            @endforeach
+
+    @endif
+    <p><strong>Tarif :</strong> {{ $professional->price }}</p>
+    <a href="{{ route('edit-general', $professional->id) }}">Modifier les infos</a>
+
 
 
 
                 <h3>Site web & reseaux sociaux</h3>
+                <a href="{{ route('edit-reseaux', $professional->id) }}">Modifier les infos</a>
+
 
 
                 <h3>Description</h3>
-                <p> {{ Auth::user()->professional->description }}</p>
+                <p> {{ $professional->description }}</p>
                 <h3>Formation</h3>
-                <p> {{ Auth::user()->professional->education_background }}</p>
+                <p> {{ $professional->education_background }}</p>
                 <h3>Parcours</h3>
-                <p> {{ Auth::user()->professional->experience_background }}</p>
+                <p> {{ $professional->experience_background }}</p>
+                <a href="{{ route('edit-text', $professional->id) }}">Modifier les infos</a>
 
                 </section>
 

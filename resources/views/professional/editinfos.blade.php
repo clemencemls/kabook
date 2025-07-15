@@ -2,14 +2,15 @@
 
 @section('content')
 
-        <form id="myForm" action="" method="POST">
+        <form id="myForm" action="{{ route('update.infos') }}" method="POST">
                   @csrf
+                  @method('PUT')
                   <h1>Modifier mes informations générales:</h1>
                   <br>
 
                   <div class="mb-3 text-start">
-                <label for="lastname" class="form-label">Le nom de votre entreprise</label>
-                <input type="text" class="form-control" id="lastname" name="last_name" value="{{ $professional->company_name }}" required  />
+                <label for="company_name" class="form-label">Le nom de votre entreprise</label>
+                <input type="text" class="form-control" id="company_name" name="company_name" value="{{ $professional->company_name }}" required  />
               </div>
 
                   <div class="mb-3 text-start">
@@ -29,9 +30,12 @@
 
           <div class="mb-3 text-start">
                 <label for="job_categories" class="form-label">Votre ou vos activités </label>
-                <select name="job_categories[]" id="job_categories" multiple class="form-select" value="{{ $professional->jobCategories }}" required>
+                <select name="job_categories[]" id="job_categories" multiple class="form-select" required>
                   @foreach ($jobcategories as $category)
-                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                        <option value="{{ $category->id }}"
+                        @if ($professional->jobCategories->contains($category->id)) selected @endif>
+                        {{ $category->name }}
+                    </option>
                   @endforeach
                 </select>
               </div>
@@ -69,6 +73,7 @@
 
 
           </div>
+          </form>
 
                               <!-- Pour le formulaire -->
                               <script>

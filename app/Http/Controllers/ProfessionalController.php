@@ -7,9 +7,11 @@ use App\Models\Department;
 use App\Models\JobCategory;
 use App\Models\Professional;
 use App\Models\User;
+use GuzzleHttp\Handler\Proxy;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\Model;
 
 
 class ProfessionalController extends Controller
@@ -33,8 +35,8 @@ class ProfessionalController extends Controller
             'first_name' => 'required',
             'last_name' => 'required',
             'phone' => 'required|digits:10',
-            'job_categories' => 'required',
-            'animal_categories' => 'required',
+            'job_categories' => 'required|array',
+            'animal_categories' => 'required|array',
         ]);
 
         $professional = Professional::create([
@@ -112,7 +114,7 @@ class ProfessionalController extends Controller
             'postal_code' => 'required',
             'address' => 'nullable',
             'is_mobile' => 'required',
-            'departments' => 'required',
+            'departments' => 'required|array',
         ]);
 
         $professional->update([
@@ -134,7 +136,6 @@ class ProfessionalController extends Controller
     public function showMonprofil()
     {
         $professional = Auth::user()->professional;
-
 
         return view('professional.monprofil', compact('professional'));
     }
@@ -160,10 +161,115 @@ class ProfessionalController extends Controller
         return view('professional.editinfos', compact('jobcategories', 'animalcategories', 'professional'));
     }
 
-    public function index()
+    public function updateInfos(Request $request)
     {
-        return view('home');
+        $professional = Auth::user()->professional;
+        if ($professional) {
+            $professional->update([
+                'company_name' => $request->input('company_name'),
+                'last_name' => $request->input('last_name'),
+                'first_name' => $request->input('first_name'),
+                // 'job_categories' => $request->input('job_categories'),
+                // 'animal_categories' => $request->input('animal_categories'),
+                'is_mobile' => $request->input('is_mobile'),
+            ]);
+
+            // Mise à jour des relations N-N avec sync (Méthode Eloquent)
+            if ($request->has('job_categories')) {
+                $professional->jobCategories()->sync($request->input('job_categories'));
+            }
+
+            if ($request->has('animal_categories')) {
+                $professional->animalCategories()->sync($request->input('animal_categories'));
+            }
+        }
+        //renvoie de la vue
+        return redirect()->route('monprofil')->with('success', 'Informations modifiés avec succes!');
     }
+
+
+    public function editReseaux()
+    {
+        $professional = Auth::user()->professional;
+
+        return view('professional.editreseaux', compact('professional'));
+    }
+
+    public function updateReseaux(Request $request)
+    {
+
+        $professional = Auth::user()->professional;
+        if ($professional) {
+            $professional->update([
+                'website' => $request->input('website'),
+                'instagram' => $request->input('instagram'),
+                'facebook' => $request->input('facebook'),
+            ]);
+        }
+        //renvoie de la vue
+        return redirect()->route('monprofil')->with('success', 'Informations modifiés avec succes!');
+
+    }
+
+    public function editGeneral()
+    {
+        $professional = Auth::user()->professional;
+        $departments = Department::all();
+
+        return view('professional.editgeneral', compact('professional', 'departments'));
+    }
+
+    public function updateGeneral(Request $request)
+    {
+
+        $professional = Auth::user()->professional;
+        if ($professional) {
+            $professional->update([
+                'address' => $request->input('address'),
+                'city' => $request->input('city'),
+                'phone' => $request->input('phone'),
+                'postal_code' => $request->input('postal_code'),
+                'siret' => $request->input('siret'),
+
+            ]);
+
+            if ($request->has('departments')) {
+                $professional->departments()->sync($request->input('departments'));
+            }
+        }
+        //renvoie de la vue
+        return redirect()->route('monprofil')->with('success', 'Informations modifiés avec succes!');
+
+    }
+
+
+
+
+    public function editText()
+    {
+        $professional = Auth::user()->professional;
+
+        return view('professional.edittext', compact('professional'));
+    }
+
+
+    public function updateText(Request $request)
+    {
+
+        $professional = Auth::user()->professional;
+        if ($professional) {
+            $professional->update([
+                'description' => $request->input('description'),
+                'education_background' => $request->input('education_background'),
+                'experience_background' => $request->input('experience_background'),
+            ]);
+        }
+        //renvoie de la vue
+        return redirect()->route('monprofil')->with('success', 'Informations modifiés avec succes!');
+
+    }
+
+
 
     /**
      * Show the form for creating a new resource.
@@ -208,8 +314,14 @@ class ProfessionalController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy()
     {
-        //
+        /** @var User $user */
+        $user = Auth::user();
+        Auth::logout();
+        $user->delete();
+
+        return redirect('/')->with('success', 'Compte supprimé avec succès.');
+
     }
 }

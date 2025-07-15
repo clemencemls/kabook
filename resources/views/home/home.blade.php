@@ -1,0 +1,50 @@
+@extends('layouts.app')
+
+@section('content')
+
+
+
+                  <form action="{{ route('search')  }}" method="GET" class="container my-4">
+      @csrf
+      <div class="row g-2 align-items-end">
+
+        <div class="col-md">
+          <!-- <label for="job_categories" class="form-label">Praticien</label> -->
+          <select name="job_categories[]" id="job_categories"  class="form-select" required>
+          <option disabled selected>Tous les praticiens</option>
+            @foreach ($jobcategories as $category)
+                  <option value="{{ $category->id }}">{{ $category->name }}</option>
+            @endforeach
+          </select>
+        </div>
+
+        <div class="col-md">
+          <!-- <label for="animal_categories" class="form-label">Animaux</label> -->
+          <select name="animal_categories[]" id="animal_categories"  class="form-select" required>
+          <option disabled selected>Tous les animaux</option>
+            @foreach ($animalcategories as $category)
+                  <option value="{{ $category->id }}">{{ $category->name }}</option>
+            @endforeach
+          </select>
+        </div>
+
+        <div class="col-md">
+          <!-- <label for="departments" class="form-label">Tous les départements</label> -->
+          <select name="departments[]" id="departments" class="form-select" required>
+          <option disabled selected>Tous les départements</option>
+            @foreach ($department as $dep)
+                  <option value="{{ $dep->id }}">{{ $dep->name }}</option>
+            @endforeach
+          </select>
+        </div>
+
+        <div class="col-auto">
+          <button type="submit" class="btn btn-primary btn-custom">Trouvez votre praticien</button>
+        </div>
+
+      </div>
+    </form>
+
+
+
+@endsection
