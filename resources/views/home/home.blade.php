@@ -11,7 +11,7 @@
         <div class="col-md">
           <!-- <label for="job_categories" class="form-label">Praticien</label> -->
           <select name="job_categories[]" id="job_categories"  class="form-select" required>
-          <option disabled selected>Tous les praticiens</option>
+          <option value="all" selected>Tous les praticiens</option>
             @foreach ($jobcategories as $category)
                   <option value="{{ $category->id }}">{{ $category->name }}</option>
             @endforeach
@@ -21,7 +21,7 @@
         <div class="col-md">
           <!-- <label for="animal_categories" class="form-label">Animaux</label> -->
           <select name="animal_categories[]" id="animal_categories"  class="form-select" required>
-          <option disabled selected>Tous les animaux</option>
+          <option value="all" selected>Tous les animaux</option>
             @foreach ($animalcategories as $category)
                   <option value="{{ $category->id }}">{{ $category->name }}</option>
             @endforeach
@@ -31,7 +31,7 @@
         <div class="col-md">
           <!-- <label for="departments" class="form-label">Tous les départements</label> -->
           <select name="departments[]" id="departments" class="form-select" required>
-          <option disabled selected>Tous les départements</option>
+          <option value="all" selected>Tous les départements</option>
             @foreach ($department as $dep)
                   <option value="{{ $dep->id }}">{{ $dep->name }}</option>
             @endforeach

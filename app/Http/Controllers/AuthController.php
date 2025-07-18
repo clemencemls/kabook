@@ -21,11 +21,11 @@ class AuthController extends Controller
         return view('auth.login');
     }
 
+
     public function DoLogin(Request $request)
     {
-
         $request->validate([
-            'email' => 'required|email',
+            'email' => 'required|max:50',
             'password' => 'required|min:4'
         ]);
 
@@ -37,14 +37,20 @@ class AuthController extends Controller
         ) {
             $request->session()->regenerate();
 
-            return redirect()->intended('monprofil');
-            // intended : 	Redirige vers la page initialement demandée, ou vers 'dashboard' par défault
-        }
+            $user = Auth::user();
 
+            if ($user->role === 'admin') {
+                return redirect()->intended('dashboard');
+            } else {
+                return redirect()->intended('monprofil');
+            }
+        }
         return redirect()->back()->withErrors([
             'email' => 'Email ou mot de passe incorrect',
         ])->onlyInput('email');
     }
+
+
 
 
     public function register()
@@ -53,22 +59,18 @@ class AuthController extends Controller
 
     }
 
+
     public function DoRegister(Request $request)
     {
         $request->validate([
-            'email' => 'required|email',
-            'password' => 'required|min:4|confirmed',
+            'email' => 'required|email|unique:users,email|max:50',
+            'password' => 'required|min:4'
+        ], [
+            'email.unique' => 'Cet email a déjà un compte.',
         ]);
-
-        $user = User::create([
-            'email' => $request->input('email'),
-            'password' => Hash::make($request->input('password')),
-        ]);
-
-
-        // sauvegarde de l'id du user en session
-        session(['user_id' => $user->id]);
-        // Auth::login($user);
+        // stockage temporaire en session
+        $step0Data = $request->only('email', 'password');
+        session(['register_data.step0' => $step0Data]);
 
         // redirection vers l'etape 1
         return redirect()->route('register.step1');

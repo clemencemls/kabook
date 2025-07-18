@@ -34,6 +34,9 @@
             <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" required />
             <div id="error_password_hash_confirm" class="error"></div>
           </div>
+          @if ($errors->has('email'))
+            <div class="error">{{ $errors->first('email') }}</div>
+        @endif
 
           <div class="mb-3 text-start">
             <p class="small mb-2 cond">

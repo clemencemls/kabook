@@ -37,10 +37,11 @@ class Professional extends Model
     ];
     // protected $hidden = ['password']; // jamais inclure ce champ dans les réponses JSON
 
-    // protected $casts = [
-    //     'is_mobile' => 'boolean',
-    //     'is_validated' => 'boolean',
-    // ]; // converti en true ou false au lieu de O et 1
+    protected $casts = [
+        'is_mobile' => 'boolean',
+        'is_validated' => 'boolean',
+    ]; // converti en true ou false au lieu de O et 1
+
     public function animalCategories()
     {
 

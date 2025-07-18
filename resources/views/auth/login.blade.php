@@ -15,7 +15,6 @@
 
 
         </div>
-
           <form id="myForm" action="{{ route('DoLogin') }}" method="POST" class="login">
           @csrf
           <div class="mb-3 text-start">
@@ -24,13 +23,15 @@
               </div>
 
               <div class="mb-3 text-start">
-                <label for="password_hash" class="form-label">Mot de passe</label>
+                <label for="password" class="form-label">Mot de passe</label>
                 <input type="password" class="form-control" id="password" name="password" required/>
                 @error('email')
                     <div>{{ $message }}</div>
                 @enderror
               </div>
-
+              @if ($errors->has('rate_limit'))
+                <div class="error">{{ $errors->first('rate_limit') }}</div>
+            @endif
           <br />
           <button type="submit" class="btn btn-success btn-custom">
            Connexion

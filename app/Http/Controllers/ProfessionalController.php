@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Support\Facades\Hash;
 
 class ProfessionalController extends Controller
 {
@@ -25,11 +25,9 @@ class ProfessionalController extends Controller
 
     }
 
+
     public function DoregisterStep1(Request $request)
     {
-        // il faut que je recupère l'id de l'user stocké dans le session à l'etape précedente
-        $user_id = session('user_id');
-
         $request->validate([
             'first_name' => 'required|string|max:50',
             'last_name' => 'required|string|max:50',
@@ -38,28 +36,24 @@ class ProfessionalController extends Controller
             'job_categories.*' => 'uuid|exists:job_categories,id',
             'animal_categories' => 'required|array',
             'animal_categories.*' => 'uuid|exists:animal_categories,id',
+            // Si un utilisateur modifie le HTML pour envoyer 9999 alors que ce job n’existe pas, Laravel refusera la requête avec une erreur de validation.
         ]);
 
-        $professional = Professional::create([
-            // 'user_id' => Auth::user()->id,
-            'user_id' => $user_id,
+        // stockage temporaire en session
+        $step1Data = [
             'first_name' => $request->input('first_name'),
             'last_name' => $request->input('last_name'),
             'phone' => $request->input('phone'),
-            'slug' => Str::slug($request->input('first_name') . ' ' . $request->input('last_name') . ' ' . Str::random(5)),
-        ]);
+            'job_categories' => $request->input('job_categories'),
+            'animal_categories' => $request->input('animal_categories'),
+        ];
 
-        // je relis les catégories metiers cochés
-        $professional->jobCategories()->attach($request->input('job_categories'));
-        // pas de crochet ici à job_categories, les crochets sont dans le name. Laravel fait automatiquement 'job_categories' => ['1', '2', '3']
+        session(['register_data.step1' => $step1Data]);
 
-        // je relis les catégories animaux cochés
-        $professional->animalCategories()->attach($request->input('animal_categories'));
-
-        // redirection vers l'etape 2
-
+        // redirection vers l'étape 2
         return redirect()->route('register.step2');
     }
+
 
     public function registerStep2()
     {
@@ -67,17 +61,10 @@ class ProfessionalController extends Controller
         return view('auth.register_step2');
 
     }
+
+
     public function DoregisterStep2(Request $request)
     {
-        $user_id = session('user_id');
-        // je recupère le professionel lié à cet user_id
-
-        $user = User::findOrFail($user_id);
-        $professional = $user->professional;
-
-        // $user = Auth::user(); // je recupère l'utilisateur connecté
-        // $professional = $user->professional; // et le professionnel lié
-
         $request->validate([
             'company_name' => 'required|string|max:50',
             'siret' => 'nullable|digits:14',
@@ -86,17 +73,21 @@ class ProfessionalController extends Controller
             'experience_background' => 'nullable|string|max:100',
         ]);
 
-        $professional->update([
+        // stockage temporaire en session
+        $step2Data = [
             'company_name' => $request->input('company_name'),
             'siret' => $request->input('siret'),
             'description' => $request->input('description'),
             'education_background' => $request->input('education_background'),
             'experience_background' => $request->input('experience_background'),
-        ]);
+        ];
+
+        session(['register_data.step2' => $step2Data]);
 
         // redirection vers l'etape 3
         return redirect()->route('register.step3');
     }
+
 
     public function registerStep3()
     {
@@ -105,17 +96,9 @@ class ProfessionalController extends Controller
         return view('auth.register_step3', compact('departments'));
 
     }
+
     public function DoregisterStep3(Request $request)
     {
-        $user_id = session('user_id');
-        // je recupère le professionel lié à cet user_id
-        $user = User::findOrFail($user_id);
-        $professional = $user->professional;
-
-
-        // $user = Auth::user(); // je recupère l'utilisateur connecté
-        // $professional = $user->professional; // et le professionnel lié
-
         $request->validate([
             'city' => 'required|string|max:50',
             'postal_code' => 'required|digits:5',
@@ -125,22 +108,63 @@ class ProfessionalController extends Controller
             'departments.*' => 'integer|exists:departments,id',
         ]);
 
-        $professional->update([
-            'city' => $request->input('city'),
-            'postal_code' => $request->input('postal_code'),
-            'address' => $request->input('address'),
-            'is_mobile' => $request->boolean('is_mobile'),
+        // Récupérer toutes les données des étapes précédentes
+        $data = array_merge(
+            session('register_data.step0', []),
+            session('register_data.step1', []),
+            session('register_data.step2', []),
+            $request->only(['city', 'postal_code', 'address', 'is_mobile', 'departments'])
+        );
 
+        // Création du User
+        $user = User::create([
+            'email' => $data['email'],
+            'password' => Hash::make($data['password']),
         ]);
 
-        // je relis le ou les  départements cochés
-        $professional->departments()->attach($request->input('departments'));
+        // Création du Professional
+        $professional = Professional::create([
+            'user_id' => $user->id,
+            'first_name' => $data['first_name'],
+            'last_name' => $data['last_name'],
+            'phone' => $data['phone'],
+            'slug' => Str::slug($data['first_name'] . ' ' . $data['last_name'] . ' ' . Str::random(5)),
+            'company_name' => $data['company_name'],
+            'siret' => $data['siret'],
+            'description' => $data['description'],
+            'education_background' => $data['education_background'],
+            'experience_background' => $data['experience_background'],
+            'city' => $data['city'],
+            'postal_code' => $data['postal_code'],
+            'address' => $data['address'],
+            'is_mobile' => $data['is_mobile'],
+        ]);
 
-        Auth::loginUsingId($user_id);
-        session()->forget('user_id');
+        // $professional->jobCategories()->attach($data['job_categories']);
+        // $professional->animalCategories()->attach($data['animal_categories']);
+        // $professional->departments()->attach($data['departments']);
+
+        // "Attacher" les relations many to many et verifier que les id existent bien, pour renforcer la sécurité
+        // J'evite d’associer des IDs invalides au professionnel
+
+        $idvalidJob = JobCategory::whereIn('id', $data['job_categories'])->pluck('id')->toArray();
+        $professional->jobCategories()->sync($idvalidJob);
+
+        $idvalidAnimal = AnimalCategory::whereIn('id', $data['animal_categories'])->pluck('id')->toArray();
+        $professional->animalCategories()->sync($idvalidAnimal);
+
+        $idvalidDepartment = Department::whereIn('id', $data['departments'])->pluck('id')->toArray();
+        $professional->departments()->sync($idvalidDepartment);
+
+        // Nettoyer la session
+        session()->forget('register_data');
+
+        // Connecter l'utilisateur
+        Auth::login($user);
 
         return redirect()->route('monprofil');
     }
+
 
     public function showMonprofil()
     {

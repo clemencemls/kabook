@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfessionalController;
 use App\Models\Professional;
@@ -27,7 +28,7 @@ Route::post('DoRegister/step3', [ProfessionalController::class, 'DoregisterStep3
 
 // Se connecter
 Route::get('login', [AuthController::class, 'login'])->name('login'); // formulaire de connexion
-Route::post('DoLogin', [AuthController::class, 'DoLogin'])->name('DoLogin'); // post DoLogin
+Route::post('DoLogin', [AuthController::class, 'DoLogin'])->name('DoLogin')->middleware(['throttle:api']); // post DoLogin
 Route::get('logout', [AuthController::class, 'logout'])->name('logout'); // se deconnecter
 
 // S'inscrire
@@ -38,6 +39,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('monprofil', [ProfessionalController::class, 'showMonprofil'])->name('monprofil'); // profil
     Route::get('paramètre', [ProfessionalController::class, 'showParametre'])->name('parametre'); // paramètres
+    Route::get('dashboard', [AdminController::class, 'showDashboard'])->middleware(\App\Http\Middleware\CheckUserRole::class . ':admin')->name('dashboard'); // dashboard admin
+    Route::get('categories', [AdminController::class, 'showCategories'])->middleware(\App\Http\Middleware\CheckUserRole::class . ':admin')->name('categories'); // rajouter,modifier,supp categories
 
     Route::get('professional/{id}/edit-infos', [ProfessionalController::class, 'editInfos'])->name('edit-infos'); //modifier infos principales
     Route::get('professional/{id}/edit-reseaux', [ProfessionalController::class, 'editReseaux'])->name('edit-reseaux'); //modifier reseaux sociaux
@@ -51,3 +54,4 @@ Route::middleware(['auth'])->group(function () {
 
     Route::delete('professional/delete', [ProfessionalController::class, 'destroy'])->name('professional.destroy');  // supprimer son compte
 });
+
