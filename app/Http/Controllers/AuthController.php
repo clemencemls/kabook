@@ -21,12 +21,18 @@ class AuthController extends Controller
         return view('auth.login');
     }
 
+    public function logout()
+    {
+        Auth::logout();
+        return redirect('/');
+    }
+
 
     public function DoLogin(Request $request)
     {
         $request->validate([
-            'email' => 'required|max:50',
-            'password' => 'required|min:4'
+            'email' => 'required|email|max:50',
+            'password' => 'required|string|min:4'
         ]);
 
         if (
@@ -35,8 +41,7 @@ class AuthController extends Controller
                 'password' => $request->input('password')
             ])
         ) {
-            $request->session()->regenerate();
-
+            $request->session()->regenerate(); // Après la connexion, je régénère l’identifiant de session . Cela permet de se protéger contre une faille de sécurité
             $user = Auth::user();
 
             if ($user->role === 'admin') {
@@ -49,8 +54,6 @@ class AuthController extends Controller
             'email' => 'Email ou mot de passe incorrect',
         ])->onlyInput('email');
     }
-
-
 
 
     public function register()
@@ -67,7 +70,8 @@ class AuthController extends Controller
             'password' => 'required|min:4'
         ], [
             'email.unique' => 'Cet email a déjà un compte.',
-        ]);
+        ]); // personnaliser le message d’erreur
+
         // stockage temporaire en session
         $step0Data = $request->only('email', 'password');
         session(['register_data.step0' => $step0Data]);
@@ -76,11 +80,7 @@ class AuthController extends Controller
         return redirect()->route('register.step1');
     }
 
-    public function logout()
-    {
-        Auth::logout();
-        return redirect('/');
-    }
+
 
     public function index()
     {

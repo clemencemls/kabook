@@ -40,19 +40,16 @@
           <div class="mb-3 text-start">
             <label for="city" class="form-label">Dans quelle ville habitez-vous ? *</label>
             <input type="text" class="form-control" id="city" name="city" required/>
-            <div id="error_city" class="error"></div>
           </div>
 
           <div class="mb-3 text-start">
             <label for="postal_code" class="form-label">Veuillez saisir le code postal. *</label>
             <input type="text" class="form-control" id="postal_code" name="postal_code" required />
-            <div id="error_postal_code" class="error"></div>
           </div>
 
           <div class="mb-3 text-start">
             <label for="address" class="form-label">À quelle adresse exercez-vous votre activité (facultatif) ?</label>
             <input type="text" class="form-control" id="address" name="address" />
-            <div id="error_address" class="error"></div>
           </div>
 
 

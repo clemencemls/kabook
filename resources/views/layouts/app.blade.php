@@ -10,6 +10,8 @@
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
       rel="stylesheet"
     />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
     <!-- Choices -->
     <link
       rel="stylesheet"
@@ -43,6 +45,7 @@
                           <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                             <li><a class="dropdown-item" href="{{ route('dashboard') }}">Mon dashboard</a></li>
                             <li><a class="dropdown-item" href="{{ route('categories') }}">Les catégories</a></li>
+                            <li><a class="dropdown-item" href="{{ route('users') }}">Les utilisateurs</a></li>
                             <li><a class="dropdown-item" href="">Paramètres</a></li>
                             <li><hr class="dropdown-divider" /></li>
                             <li><a class="dropdown-item" href="{{ route('logout') }}">Déconnexion</a></li>
@@ -85,6 +88,13 @@
     <div class="container mt-5 pt-5">
       @yield('content')
     </div>
+
+    <footer class="bg-dark text-white py-3 mt-5">
+      <div class="container text-center">
+        <small>© {{ date('Y') }} Kabook. Tous droits réservés.</small>
+      </div>
+    </footer>
+
 
     <!-- Choices -->
     <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>

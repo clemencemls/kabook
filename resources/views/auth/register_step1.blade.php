@@ -18,13 +18,11 @@
               <div class="mb-3 text-start">
                 <label for="lastname" class="form-label">Quel est votre nom ? *</label>
                 <input type="text" class="form-control" id="lastname" name="last_name" required />
-                <div id="error_email" class="error"></div>
               </div>
 
               <div class="mb-3 text-start">
                 <label for="firstname" class="form-label">Quel est votre prénom ? *</label>
                 <input type="text" class="form-control" id="firstname" name="first_name" required />
-                <div id="error_password_hash" class="error"></div>
               </div>
 
               <div class="mb-3 text-start">

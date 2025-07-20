@@ -42,6 +42,8 @@ class Professional extends Model
         'is_validated' => 'boolean',
     ]; // converti en true ou false au lieu de O et 1
 
+
+    // Déclaration des relations Eloquent
     public function animalCategories()
     {
 

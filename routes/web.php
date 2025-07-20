@@ -39,9 +39,26 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('monprofil', [ProfessionalController::class, 'showMonprofil'])->name('monprofil'); // profil
     Route::get('paramètre', [ProfessionalController::class, 'showParametre'])->name('parametre'); // paramètres
-    Route::get('dashboard', [AdminController::class, 'showDashboard'])->middleware(\App\Http\Middleware\CheckUserRole::class . ':admin')->name('dashboard'); // dashboard admin
-    Route::get('categories', [AdminController::class, 'showCategories'])->middleware(\App\Http\Middleware\CheckUserRole::class . ':admin')->name('categories'); // rajouter,modifier,supp categories
 
+    //Admin
+    Route::get('dashboard', [AdminController::class, 'showDashboard'])->middleware(\App\Http\Middleware\CheckUserRole::class . ':admin')->name('dashboard'); // dashboard admin
+    Route::get('categories', [AdminController::class, 'showCategories'])->middleware(\App\Http\Middleware\CheckUserRole::class . ':admin')->name('categories'); // Liste des catégories
+    Route::get('animalcategorie/{id}/edit', [AdminController::class, 'editAnimal'])->middleware(\App\Http\Middleware\CheckUserRole::class . ':admin')->name('editanimalcat'); // modifier
+    Route::get('jobcategorie/{id}/edit', [AdminController::class, 'editJob'])->middleware(\App\Http\Middleware\CheckUserRole::class . ':admin')->name('editjobcat'); // modifier
+    Route::get('department/{id}/edit', [AdminController::class, 'editDepartment'])->middleware(\App\Http\Middleware\CheckUserRole::class . ':admin')->name('editdepartment'); // modifier
+    Route::put('animalcategorie/{id}/update', [AdminController::class, 'updateAnimal'])->middleware(\App\Http\Middleware\CheckUserRole::class . ':admin')->name('updateanimalcat'); // modifier
+    Route::put('jobcategorie/{id}/update', [AdminController::class, 'updateJob'])->middleware(\App\Http\Middleware\CheckUserRole::class . ':admin')->name('updatejobcat'); // modifier
+    Route::put('department/{id}/update', [AdminController::class, 'updateDepartment'])->middleware(\App\Http\Middleware\CheckUserRole::class . ':admin')->name('updatedepartment'); // modifier
+    Route::post('storejob', [AdminController::class, 'storeJob'])->middleware(\App\Http\Middleware\CheckUserRole::class . ':admin')->name('job.store'); // créer une categorie
+    Route::post('storeanimal', [AdminController::class, 'storeAnimal'])->middleware(\App\Http\Middleware\CheckUserRole::class . ':admin')->name('animal.store');
+    Route::post('storedepartment', [AdminController::class, 'storeDepartment'])->middleware(\App\Http\Middleware\CheckUserRole::class . ':admin')->name('department.store');
+    Route::delete('animalcategorie/{id}/delete', [AdminController::class, 'destroyAnimal'])->middleware(\App\Http\Middleware\CheckUserRole::class . ':admin')->name('animal.destroy');
+    Route::delete('jobcategorie/{id}/delete', [AdminController::class, 'destroyJob'])->middleware(\App\Http\Middleware\CheckUserRole::class . ':admin')->name('job.destroy');
+    Route::delete('department/{id}/delete', [AdminController::class, 'destroyDepartment'])->name('department.destroy');
+    Route::get('users', [AdminController::class, 'showUsers'])->middleware(\App\Http\Middleware\CheckUserRole::class . ':admin')->name('users'); // liste des users
+    Route::delete('users/{id}/delete', [AdminController::class, 'destroyUsers'])->middleware(\App\Http\Middleware\CheckUserRole::class . ':admin')->name('users.destroy');// supprimer un user
+
+    //Utilisateurs
     Route::get('professional/{id}/edit-infos', [ProfessionalController::class, 'editInfos'])->name('edit-infos'); //modifier infos principales
     Route::get('professional/{id}/edit-reseaux', [ProfessionalController::class, 'editReseaux'])->name('edit-reseaux'); //modifier reseaux sociaux
     Route::get('professional/{id}/edit-general', [ProfessionalController::class, 'editGeneral'])->name('edit-general'); //modifier infos general

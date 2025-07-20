@@ -31,6 +31,7 @@ class HomeController extends Controller
             'animal_categories' => 'required|array',
         ]);
 
+
         // $professionals = Professional::whereHas('jobCategories', function ($q) use ($request) {
         //     $q->whereIn('id', $request->job_categories);
         // })
@@ -64,9 +65,10 @@ class HomeController extends Controller
         }
 
         // Récupération finale des objets Eloquent
-        $professionals = $professionals->get();
+        $professionals = $professionals->paginate(12);
 
-        $count = $professionals->count();
+        // $count = $professionals->count();
+        $count = $professionals->total();
         $jobcategories = JobCategory::all();
         $animalcategories = AnimalCategory::all();
         $department = Department::all();

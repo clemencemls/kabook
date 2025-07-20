@@ -5,7 +5,7 @@
 @section('content')
     <h1>Hello Admin : {{ $user->email }}</h1>
     <br>
-        <h2>Nombre total de professionnel inscrit : {{ $count }}</h2>
+        <h2>Nombre total de professionnels inscrits : {{ $count }}</h2>
         <br>
 
             <h3>Profils à valider</h3>
