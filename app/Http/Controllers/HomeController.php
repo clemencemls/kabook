@@ -64,6 +64,10 @@ class HomeController extends Controller
             });
         }
 
+        // stockage  en session
+        $storeData = $request->only('departments', 'job_categories', 'animal_categories');
+        session(['searchInput' => $storeData]);
+
         // Récupération finale des objets Eloquent
         $professionals = $professionals->paginate(12);
 
@@ -74,7 +78,7 @@ class HomeController extends Controller
         $department = Department::all();
 
 
-        return view('home.searchpro', compact('professionals', 'count', 'jobcategories', 'animalcategories', 'department'));
+        return view('home.searchpro', compact('professionals', 'count', 'jobcategories', 'animalcategories', 'department', 'storeData'));
     }
 
     function showMonprofil($id)

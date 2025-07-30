@@ -34,6 +34,11 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+    public function professional()
+    {
+        return $this->hasOne(Professional::class);
+    }
+
     /**
      * Get the attributes that should be cast.
      *
@@ -47,8 +52,4 @@ class User extends Authenticatable
         ];
     }
 
-    public function professional()
-    {
-        return $this->hasOne(Professional::class);
-    }
 }

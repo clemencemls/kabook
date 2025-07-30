@@ -16,7 +16,7 @@
 
           <div class="mb-3 text-start">
             <label class="form-label d-block">Est-ce que vous vous déplacez chez vos clients ? *</label>
-          <div class="form-check form-check-inline">
+            <div class="form-check form-check-inline">
               <input class="form-check-input" type="radio" name="is_mobile" id="mobile_yes" value="1" required>
               <label class="form-check-label" for="mobile_yes">Oui</label>
             </div>
@@ -25,7 +25,7 @@
               <input class="form-check-input" type="radio" name="is_mobile" id="mobile_no" value="0">
               <label class="form-check-label" for="mobile_no">Non</label>
             </div>
-
+          </div>
 
           <div class="mb-3 text-start">
             <label for="job_categories" class="form-label">Veuillez saisir votre département. Si vous êtes mobiles, selectionner tous ceux dans lequel vous vous déplacez. *</label>
@@ -36,31 +36,22 @@
             </select>
           </div>
 
-
           <div class="mb-3 text-start">
             <label for="city" class="form-label">Dans quelle ville habitez-vous ? *</label>
-            <input type="text" class="form-control" id="city" name="city" required/>
+            <input type="text" class="form-control" id="city" name="city" required>
           </div>
 
           <div class="mb-3 text-start">
             <label for="postal_code" class="form-label">Veuillez saisir le code postal. *</label>
-            <input type="text" class="form-control" id="postal_code" name="postal_code" required />
+            <input type="text" class="form-control" id="postal_code" name="postal_code" required>
           </div>
 
           <div class="mb-3 text-start">
             <label for="address" class="form-label">À quelle adresse exercez-vous votre activité (facultatif) ?</label>
-            <input type="text" class="form-control" id="address" name="address" />
+            <input type="text" class="form-control" id="address" name="address">
           </div>
 
-
-            <!--
-            <label for="departments">Si oui, sélectionnez les départements dans lesquels vous vous déplacez :</label>
-            <select multiple name="departements" id="departments">
-              <option>Ile de France</option>
-              <option>Yvelines</option>
-            </select>
-            -->
-            <p>* Champs obligatoires</p>
+          <p>* Champs obligatoires</p>
 
           <div class="text-center mt-4">
             <button type="submit" class="btn btn-primary px-4 btn-custom">Valider l'inscription</button>
@@ -68,6 +59,7 @@
         </form>
       </div>
     </section>
+
     <br>
     <br>
 
@@ -78,17 +70,16 @@
       </h6>
     </section>
 
-                                <!-- Pour le formulaire -->
-                                <script>
-                        document.addEventListener('DOMContentLoaded', function () {
-                            new Choices('#departments', {
-                                removeItemButton: true, // Ajoute un petit bouton × à côté de chaque élément sélectionné
-                                placeholderValue: 'Sélectionnez un ou plusieurs départements',//Affiche un texte gris quand rien n'est encore sélectionné.
-                                searchEnabled: true, //Active une petite barre de recherche dans le champ
-                                shouldSort: false // pas de tri par ordre alphabetique
-                            });
+    <!-- Pour le formulaire -->
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        new Choices('#departments', {
+          removeItemButton: true, // Ajoute un petit bouton × à côté de chaque élément sélectionné
+          placeholderValue: 'Sélectionnez un ou plusieurs départements', // Affiche un texte gris quand rien n'est encore sélectionné.
+          searchEnabled: true, // Active une petite barre de recherche dans le champ
+          shouldSort: false // pas de tri par ordre alphabetique
+        });
+      });
+    </script>
 
-
-                        });
-                    </script>
 @endsection

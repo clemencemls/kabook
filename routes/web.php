@@ -57,6 +57,8 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('department/{id}/delete', [AdminController::class, 'destroyDepartment'])->name('department.destroy');
     Route::get('users', [AdminController::class, 'showUsers'])->middleware(\App\Http\Middleware\CheckUserRole::class . ':admin')->name('users'); // liste des users
     Route::delete('users/{id}/delete', [AdminController::class, 'destroyUsers'])->middleware(\App\Http\Middleware\CheckUserRole::class . ':admin')->name('users.destroy');// supprimer un user
+    Route::get('profil/{id}', [AdminController::class, 'showProfil'])->middleware(\App\Http\Middleware\CheckUserRole::class . ':admin')->name('profil');
+    Route::post('validate/{id}', [AdminController::class, 'validatePro'])->middleware(\App\Http\Middleware\CheckUserRole::class . ':admin')->name('validate');
 
     //Utilisateurs
     Route::get('professional/{id}/edit-infos', [ProfessionalController::class, 'editInfos'])->name('edit-infos'); //modifier infos principales

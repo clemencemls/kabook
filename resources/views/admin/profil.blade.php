@@ -4,6 +4,7 @@
 
     <h1> Profil de {{ $professional->first_name }} </h1>
     <br>
+    <br>
     <div class="d-flex align-items-center gap-2">
                   <!-- Bloc image + infos -->
                   <div class="flex-grow-1 d-flex align-items-center">
@@ -126,5 +127,11 @@
             <p>{{ $professional->experience_background }}</p>
           </div>
         </div>
+        <br>
+
+            <form method="POST" action="{{ route('validate', $professional->id) }}">
+        @csrf
+        <button type="submit" class="btn btn-primary btn-custom">Valider le profil</button>
+    </form>
 
 @endsection

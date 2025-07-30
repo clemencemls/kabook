@@ -5,19 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@yield('title', 'Kabook')</title>
 
-    <!-- Bootstrap -->
+    <!-- Pour Bootstrap -->
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 
-    <!-- Choices -->
+    <!-- Pour Choices, biliottheque Javascript -->
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css"
     />
-    <!-- CSS -->
+    <!-- Pour mon CSS -->
     @vite('resources/css/custom.css')
   </head>
 
@@ -25,7 +25,7 @@
     <nav class="navbar navbar-expand-lg fixed-top">
       <div class="container-fluid px-4">
         <a class="navbar-brand" href="{{ route('home') }}">
-          <img src="{{ asset('images/paw.png') }}"alt="Kabook" height="20" />
+          <img src="{{ asset('images/paw.png') }} " alt="Kabook" height="20" />
         </a>
 
         @auth
@@ -95,11 +95,8 @@
       </div>
     </footer>
 
-
-    <!-- Choices -->
     <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
 
-    <!-- Bootstrap -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   </body>
 </html>

@@ -192,6 +192,22 @@ class AdminController extends Controller
         //faire une redirection dans la meme page
         return redirect()->back()->with('success', 'Utilisateur suprimée');
     }
+    public function showProfil($id)
+    {
+        $professional = Professional::findOrFail($id);
+        return view('admin.profil', compact('professional'));
 
+    }
+
+    public function validatePro($id)
+    {
+
+        $professional = Professional::findOrFail($id);
+        $professional->is_validated = true;
+        $professional->save();
+
+        return redirect()->route('dashboard')->with('success', 'Le profil a été validé avec succès.');
+
+    }
 
 }

@@ -7,13 +7,18 @@
     <br>
         <h2>Nombre total de professionnels inscrits : {{ $count }}</h2>
         <br>
+        @if(session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
 
             <h3>Profils à valider</h3>
                 @foreach($professional as $pro)
                     @if ($pro->is_validated === false)
                         <span>{{ $pro->created_at }}</span>
                         <br>
-                            <a href="">{{ $pro->first_name }}</a>
+                            <a href="{{ route('profil', $pro->id) }}">{{ $pro->first_name }}</a>
                     @endif
                 @endforeach
 
