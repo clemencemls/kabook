@@ -35,3 +35,44 @@ département.
 Kabook est un MVP (Minimum Viable Product) développé dans le cadre d’un projet de fin de formation en développement web. Il permet de mettre en pratique l’ensemble des compétences acquises : conception, modélisation de données, développement full-stack, gestion de projet agile et prise en compte de l’accessibilité numérique.
 
 Outils : Trello (gestion de projet agile), Figma (maquettage UI/UX), GitHub (versionning).
+
+🚀 Installation du projet en local
+
+Cloner le dépôt :
+
+git clone https://github.com/ton-utilisateur/kabook.git
+cd kabook
+
+
+Installer les dépendances PHP :
+
+composer install
+
+
+Installer les dépendances front-end :
+
+npm install && npm run dev
+
+
+Configurer l’environnement :
+
+Copier le fichier .env.example en .env
+
+Configurer la base de données MySQL
+
+Générer la clé de l’application :
+
+php artisan key:generate
+
+
+Lancer les migrations :
+
+php artisan migrate
+
+
+Démarrer le serveur local :
+
+php artisan serve
+
+
+Le projet sera accessible sur http://localhost:8000
